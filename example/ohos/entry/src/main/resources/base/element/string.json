@@ -1,0 +1,20 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "module description"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "cute_contact_picker_example"
+    },
+    {
+      "name": "read_contact_reason",
+      "value": "读取通讯录获取联系人信息"
+    }
+  ]
+}
