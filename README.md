@@ -1,90 +1,99 @@
 # cute_contact_picker
 
-Flutter通讯录联系人选择器插件，支持Android、iOS和鸿蒙平台。
+Flutter选择通讯录联系人插件，支持Android、iOS和HarmonyOS。
 
-## 特性
+## 功能
+* 支持获取单个联系人信息（不需要通讯录权限）
+* 支持获取联系人列表（需要通讯录权限）
+* Android和IOS支持获取联系人姓名的首字母
 
-在调用获取联系人方法之前需要先获取获取权限,<br>
-可以打开Native通讯录选择联系人，也可以返回通讯录列表，自己构建UI。
+## 模型
+```dart
+class Contact {
+  Contact({this.fullName, this.phoneNumber, this.firstLetter});
+
+  factory Contact.fromMap(Map<dynamic, dynamic> map) => new Contact(
+        fullName: map['fullName'],
+        phoneNumber: map['phoneNumber'],
+        firstLetter: map['firstLetter'],
+      );
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['fullName'] = this.fullName;
+    data['phoneNumber'] = this.phoneNumber;
+    data['firstLetter'] = this.firstLetter;
+    return data;
+  }
+
+  ///联系人姓名，如张三
+  final String? fullName;
+
+  ///电话号码，如13212345678
+  final String? phoneNumber;
+
+  ///姓名首字母，如Z
+  final String? firstLetter;
+
+}
+```
 
 ## 用法
 ### 添加依赖到pubspec.yaml
-```
-  cute_contact_picker: ^0.1.0
+```yaml
+cute_contact_picker: ^0.1.0
 ```
 
 ### 引用
-```
+```dart
 import 'package:cute_contact_picker/cute_contact_picker.dart';
 ```
 ### 添加权限
 #### Android
+##### 在`AndroidManifest.xml`中添加读取通讯录权限
+```xml
+<uses-permission android:name="android.permission.READ_CONTACTS" />
 ```
-<!-- 读取联系人 -->
-<uses-permission android:name="android.permission.READ_CONTACTS"/>
+#### iOS
+##### 在`Info.plist`中添加读取通讯录权限
+```xml
+<key>NSContactsUsageDescription</key>
+<string>我们需要访问您的通讯录来帮助您快速填写联系人信息。</string>
 ```
-#### iOS<br>
-##### info.plist中添加读取通讯录权限
-``` 
-Privacy - Contacts Usage Description
-```
-##### Background Modes中 Background fetch 和 Remote notification打对勾
 
-### 示例1 打开Native通讯录<br>
-#### 1.CuteContactPicker中打开Native通讯录方法
-```
-Future<List<Contact>> selectContacts() async {
-    final List result =
-    await _channel.invokeMethod('selectContactList');
-    if (result == null) {
-      return null;
-    }
-    List<Contact> contacts = new List();
-    result.forEach((f){
-      contacts.add(new Contact.fromMap(f));
-    });
-    return contacts;
+#### HarmonyOS
+##### 在`ohos/entry/src/main/module.json5`中声明通讯录权限
+```json
+"requestPermissions": [
+  {
+    "name": "ohos.permission.READ_CONTACTS",
+    "reason": "读取联系人信息"
   }
+]
 ```
-#### 2.调用示例<br>
-##### Widget中声明<br>
-```
-Contact _contact = new Contact(fullName: "", phoneNumber: "");
-final CuteContactPicker _contactPicker = new CuteContactPicker();
-```
-##### Widget中调用<br>
-```
-_getContactData() async{
+### 示例1: 打开原生通讯录选择单个联系人
+```dart
+  final CuteContactPicker _contactPicker = new CuteContactPicker();
+  Contact _contact = new Contact(fullName: "", phoneNumber: "");
+
+  _getContactData() async {
     Contact contact = await _contactPicker.selectContactWithNative();
     setState(() {
       _contact = contact;
     });
   }
 ```
-#### 示例2 返回通讯录数组<br>
-##### 1.CuteContactPicker中返回通讯录数组方法
-```
-Future<Contact> selectContactWithNative() async {
-    final Map<dynamic, dynamic> result =
-    await _channel.invokeMethod('selectContactNative');
-    if (result == null) {
-      return null;
-    }
-    return new Contact.fromMap(result);
-  }
-```
-##### 2.调用示例<br>
-###### Widget中声明<br>
-```
-  List<Contact> _list = new List();
+### 示例2: 返回联系人列表
+```dart
   final CuteContactPicker _contactPicker = new CuteContactPicker();
-```
-##### Widget中调用<br>
-```
-_getContactData() async{
-    List<Contact> list = await _contactPicker.selectContacts();
-    setState(() {
-      _list = list;
-    });
+  List<Contact> _list = new List();
+
+  _getContactData() async {
+    //申请权限
+    if (await Permission.contacts.request().isGranted) {
+      List<Contact> list = await _contactPicker.selectContacts();
+      setState(() {
+        _list = list;
+      });
+    }
   }
-```
