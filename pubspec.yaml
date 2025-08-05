@@ -1,11 +1,16 @@
 name: cute_contact_picker
 description: A Flutter plugin for select contact from address book，supported both Android、iOS and HarmonyOS.
 version: 0.1.0
-author: kongpf8848 <kongpf8848@gmail.com>
 homepage: https://github.com/kongpf8848/cute_contact_picker
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
+  flutter: ">=3.0.0"
+
+topics:
+  - contact
+  - flutter
+  - harmony
 
 dependencies:
   flutter:

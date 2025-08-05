@@ -1,6 +1,5 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:cute_contact_picker/cute_contact_picker.dart';
 
 void main() {
   const MethodChannel channel = MethodChannel('plugins.flutter.io/cute_contact_picker');
