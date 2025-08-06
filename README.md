@@ -2,6 +2,9 @@
 
 Flutter选择通讯录联系人插件，支持Android、iOS和HarmonyOS。
 
+[![pub package](https://img.shields.io/pub/v/cute_contact_picker?label=cute_contact_picker&color=green)](https://pub.dev/packages/cute_contact_picker)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/kongpf8848/cute_contact_picker/blob/master/LICENSE)
+
 ## 功能
 * 支持获取单个联系人信息（不需要通讯录权限）
 * 支持获取联系人列表（需要通讯录权限）
