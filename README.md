@@ -44,7 +44,7 @@ class Contact {
 ## 用法
 ### 添加依赖到pubspec.yaml
 ```yaml
-cute_contact_picker: ^0.1.0
+cute_contact_picker: ^0.2.0
 ```
 
 ### 引用

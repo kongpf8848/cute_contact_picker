@@ -1,5 +1,5 @@
 PODS:
-  - cute_contact_picker (0.1.0):
+  - cute_contact_picker (0.2.0):
     - Flutter
   - Flutter (1.0.0)
   - "permission_handler (5.1.0+2)":
